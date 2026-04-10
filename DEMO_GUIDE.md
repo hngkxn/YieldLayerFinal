@@ -17,7 +17,7 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
 - Account 3: Investor B
 - Account 4: Redeemer
 - Use totalShares = 10000
-- Sell 2500 shares to A and 2500 shares to B via ShareSale
+- Sell 2500 shares to A and 2500 shares to B via ShareSale, admin keeps the other 5000
 - Deposit 1 ETH as yield
 
 ## Fast Demo Steps
@@ -57,7 +57,7 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
 
 ### Step 5 - Fractionalize
 - On FractionFactory call:
-  - fractionalize(0, 10000, "YieldLayer EV Station 0", "YLEV0")
+  - fractionalize(0, 10000, "YieldLayer EV Station 0", "YLEV0"), to fractionalise assetId/asset of tokenId 0, with total shares of 100000, name of EV of YieldLayer EV Station 0, and short code of EV YLEV0. this will release a TokenFraction, YieldDistributor, ans SaleShare contract for this asset.
 - Then read:
   - fractionsFor(0)
   - distributorFor(0)
@@ -80,16 +80,16 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
 
 ### Step 7 - Configure sale once
 - From operator on ShareSale:
-  - configureSale(100000000000000, true)
+  - configureSale(100000000000000, true), this sets the PricePerShare as 100000000000000, and set the sale as active in the market.
 - From operator on FractionToken:
   - approve(shareSaleAddress, 5000)
 - What happens:
-  The operator sets a fixed share price and opens the sale, then grants ShareSale permission to transfer 5000 operator-held shares.
+  The operator sets a fixed share price and opens the sale, then grants ShareSale permission to transfer 5000 operator-held shares (operator keeps the other 5000. totalSupply is 10000).
 - Why we do it:
   Buyers need a price and transfer allowance, otherwise purchases will revert.
 
 ### Step 8 - Investors buy shares
-- from either Investor A or B, call quote (2500). output is the amount to be put in VALUE
+- from either Investor A or B, under the ShareSale contract, call quote (2500) to get the the amount of wei payable to buy 2500 shares. output is the amount to be put in VALUE
 - Investor A on ShareSale:
   - buyShares(2500) with VALUE = quote(2500)
 - Investor B on ShareSale:
@@ -108,6 +108,7 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
   This simulates real operating revenue and funds investor claims.
 
 ### Step 10 - Show claimable amounts
+Under YieldDistributor, 
 - claimable(investorA) should be about 0.25 ETH
 - claimable(investorB) should be about 0.25 ETH
 - What happens:
@@ -116,8 +117,9 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
   It proves payout math is transparent and directly tied to token ownership.
 
 ### Step 11 - Claim yield
-- Investor A calls claim(0)
-- Investor B calls claim(0)
+Under YieldDistributor, 
+- Investor A calls claim()
+- Investor B calls claim()
 - What happens:
   Each investor withdraws their accrued ETH from YieldDistributor to their wallet.
 - Why we do it:
@@ -156,11 +158,12 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
   Switch to Redeemer account.
   On FractionToken call:
   - approve(vaultAddress, 10000)
+  - The redeemer calls approve to allow the vault to burn their shares as proof they truly own 100% before unlocking the NFT.
 
 - Substep 12.4 - Execute redemption
   Still on Redeemer account.
   On AssetVault call:
-  - redeemAsset(0)
+  - redeemAsset(0), where 0 here is the tokenId of the asset.
   Send 0 ETH value for this call.
 
 - Substep 12.5 - Verify success
