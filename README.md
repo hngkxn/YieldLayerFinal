@@ -72,7 +72,7 @@ The system consists of the following core contracts:
 9. Deposit yield and call `claim()` as investors
 
 For a full detailed walkthrough, refer to:
-👉 `DEMO_readme.md`
+👉 `DEMO_GUIDE.md`
 
 
 ---
