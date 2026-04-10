@@ -63,9 +63,6 @@ contract FractionFactory {
         require(fractionsFor[assetId] == address(0), "Already fractionalized");
 
 
-        require(vault.factory() == address(this), "Factory not linked in vault");
-
-        require(totalShares > 0, "Shares must be greater than zero");
 
     // Move NFT into vault escrow before deploying share token contracts.
         vault.lockAsset(assetId, msg.sender);
