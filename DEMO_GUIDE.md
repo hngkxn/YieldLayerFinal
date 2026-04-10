@@ -57,7 +57,7 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
 
 ### Step 5 - Fractionalize
 - On FractionFactory call:
-  - fractionalize(0, 10000, "YieldLayer EV Station 0", "YLEV0"), to fractionalise assetId/asset of tokenId 0, with total shares of 100000, name of EV of YieldLayer EV Station 0, and short code of EV YLEV0. this will release a TokenFraction, YieldDistributor, ans SaleShare contract for this asset.
+  - fractionalize(0, 10000, "YieldLayer EV Station 0", "YLEV0"), to fractionalise assetId/asset of tokenId 0, with total shares of 10.000, name of EV of YieldLayer EV Station 0, and short code of EV YLEV0. This will release a TokenFraction, YieldDistributor, ans SaleShare contract for this asset.
 - Then read:
   - fractionsFor(0)
   - distributorFor(0)
@@ -80,7 +80,7 @@ An operator tokenizes one asset, sells ownership as shares, deposits revenue, an
 
 ### Step 7 - Configure sale once
 - From operator on ShareSale:
-  - configureSale(100000000000000, true), this sets the PricePerShare as 100000000000000, and set the sale as active in the market.
+  - configureSale(100000000000000, true), this sets the PricePerShare as 100000000000000 wei, and set the sale as active in the market.
 - From operator on FractionToken:
   - approve(shareSaleAddress, 5000)
 - What happens:
