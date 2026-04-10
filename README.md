@@ -74,17 +74,6 @@ The system consists of the following core contracts:
 For a full detailed walkthrough, refer to:
 👉 `DEMO_readme.md`
 
----
-
-## Design Choice: Minimal UI
-
-This project intentionally does not include a frontend interface.
-All interactions are performed via Remix to ensure:
-
-* Focus on core smart contract logic
-* Reliable end-to-end execution
-* Simpler reproducibility for grading
-
 
 ---
 
@@ -98,17 +87,8 @@ All interactions are performed via Remix to ensure:
 
 ---
 
-## Assumptions & Scope
-
-* This project demonstrates a **happy-path flow**
-* Edge cases and production optimizations are intentionally de-scoped
-* The focus is on correctness of the core mechanism
-
----
-
 ## Limitations
 
-* No frontend UI (Remix-based interaction only)
 * No KYC / compliance layer (future extension)
 * No secondary market trading implemented
 * No protocol fee mechanism
